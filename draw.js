@@ -4,11 +4,11 @@ window.addEventListener('DOMContentLoaded', function () {
   var drawing = false;
 
   function get_current_x(event) {
-    return event.offsetX;
+    return event.offsetX ? event.offsetX : event.targetTouches[0].pageX;
   }
 
   function get_current_y(event) {
-    return event.offsetY;
+    return event.offsetY ? event.offsetY : event.targetTouches[0].pageY;
   }
 
   function start_drawing(event) {
@@ -34,10 +34,17 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   }
 
+  document.body.addEventListener('touchmove', function (event) {
+    event.preventDefault();
+  }, false);
+
   canvas.addEventListener('mousedown', start_drawing, false);
+  canvas.addEventListener('touchstart', start_drawing, false);
 
   canvas.addEventListener('mousemove', process_drawing, false);
+  canvas.addEventListener('touchmove', process_drawing, false);
 
   canvas.addEventListener('mouseup', end_drawing, false);
+  canvas.addEventListener('touchend', end_drawing, false);
 
 }, false);

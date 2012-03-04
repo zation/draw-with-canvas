@@ -1,9 +1,54 @@
 body {
-  background-image: url("../img/wallpaper.jpg");
+  background-image: url("../img/background.png");
+  margin: 0;
+}
+
+.images-gallery {
+  width: 400px;
+  background-color: white;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-right: 1px solid #BBB;
+  box-shadow: 0 0 20px #ccc;
+  /*background-color: #fafafa;*/
+  text-align: center;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  display: inline-block;
+  margin: 10px;
+  padding: 5px;
+  background-color: white;
+  /*box-shadow: 0 2px 3px #ccc;*/
+  width: 350px;
+}
+
+li:hover {
+  /*border-color: #ddd;*/
+  box-shadow: 0 2px 4px #666;
+}
+
+.images-gallery img {
+  width: 100%;
+}
+
+.content {
+  margin-left: 400px;
 }
 
 #canvas {
+  box-shadow: 0 0 20px #ccc;
+  border: 1px solid #BBB;
   background-color: white;
-  box-shadow: 1px 2px 2px gray, -1px 2px 2px gray;
   border-radius: 10px;
+  margin: 50px;
 }

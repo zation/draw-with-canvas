@@ -5,11 +5,11 @@ window.addEventListener('DOMContentLoaded', function () {
   var is_in_canvas = true;
 
   function get_current_x(event) {
-    return event.offsetX === undefined ? event.targetTouches[0].pageX : event.offsetX;
+    return event.offsetX === undefined ? event.targetTouches[0].clientX - canvas.offsetLeft : event.offsetX;
   }
 
   function get_current_y(event) {
-    return event.offsetY === undefined ? event.targetTouches[0].pageY : event.offsetY;
+    return event.offsetY === undefined ? event.targetTouches[0].clientY - canvas.offsetTop : event.offsetY;
   }
 
   function start_drawing() {
@@ -40,7 +40,7 @@ window.addEventListener('DOMContentLoaded', function () {
     is_in_canvas = true;
   }
 
-  document.addEventListener('touchmove', function (event) {
+  canvas.addEventListener('touchmove', function (event) {
     event.preventDefault();
   }, false);
 

@@ -2,8 +2,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var canvas = document.getElementById('canvas');
   var context = canvas.getContext('2d');
   var is_drawing = false;
-  var is_in_canvas = false;
-  var is_on_mobile = navigator.userAgent.match(/Mobile/i);
+  var is_in_canvas = true;
 
   function get_current_x(event) {
     return event.offsetX === undefined ? event.targetTouches[0].pageX : event.offsetX;
@@ -15,6 +14,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
   function start_drawing() {
     is_drawing = true;
+    is_in_canvas = true;
     context.beginPath();
   }
 
@@ -31,7 +31,7 @@ window.addEventListener('DOMContentLoaded', function () {
   }
 
   function leave_canvas() {
-    if (is_drawing) context.closePath();
+    if (is_drawing)  context.closePath();
     is_in_canvas = false;
   }
 
@@ -40,22 +40,18 @@ window.addEventListener('DOMContentLoaded', function () {
     is_in_canvas = true;
   }
 
-  if (is_on_mobile) {
-    is_in_canvas = true;
-    document.addEventListener('touchmove', function (event) {
-      event.preventDefault();
-    }, false);
-    document.addEventListener('touchstart', start_drawing, false);
-    canvas.addEventListener('touchmove', process_drawing, false);
-    document.addEventListener('touchend', end_drawing, false);
-  }
-  else {
-    document.addEventListener('mousedown', start_drawing, false);
-    canvas.addEventListener('mousemove', process_drawing, false);
-    canvas.addEventListener('mouseout', leave_canvas, false);
-    canvas.addEventListener('mouseover', enter_canvas, false);
-    document.addEventListener('mouseup', end_drawing, false);
-  }
+  document.addEventListener('touchmove', function (event) {
+    event.preventDefault();
+  }, false);
 
+  canvas.addEventListener('touchstart', start_drawing, false);
+  canvas.addEventListener('touchmove', process_drawing, false);
+  canvas.addEventListener('touchend', end_drawing, false);
+
+  canvas.addEventListener('mousedown', start_drawing, false);
+  canvas.addEventListener('mousemove', process_drawing, false);
+  canvas.addEventListener('mouseup', end_drawing, false);
+  canvas.addEventListener('mouseout', leave_canvas, false);
+  canvas.addEventListener('mouseover', enter_canvas, false);
 
 }, false);

@@ -1,0 +1,9 @@
+body {
+  background-image: url("../img/wallpaper.jpg");
+}
+
+#canvas {
+  background-color: white;
+  box-shadow: 1px 2px 2px gray, -1px 2px 2px gray;
+  border-radius: 10px;
+}

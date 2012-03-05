@@ -1,4 +1,4 @@
-window.addEventListener('DOMContentLoaded', function () {
+function initialize_drawing() {
   var canvas = document.getElementById('canvas');
   var context = canvas.getContext('2d');
   var is_drawing = false;
@@ -15,6 +15,8 @@ window.addEventListener('DOMContentLoaded', function () {
   function start_drawing() {
     is_drawing = true;
     is_in_canvas = true;
+    context.lineWidth = 4;
+
     context.beginPath();
   }
 
@@ -54,4 +56,4 @@ window.addEventListener('DOMContentLoaded', function () {
   canvas.addEventListener('mouseout', leave_canvas, false);
   canvas.addEventListener('mouseover', enter_canvas, false);
 
-}, false);
+}

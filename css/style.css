@@ -13,7 +13,6 @@ body {
   overflow-x: hidden;
   border-right: 1px solid #BBB;
   box-shadow: 0 0 20px #ccc;
-  /*background-color: #fafafa;*/
   text-align: center;
 }
 
@@ -28,11 +27,9 @@ li {
   margin: .8em;
   padding: .2em;
   background-color: white;
-  /*box-shadow: 0 2px 3px #ccc;*/
 }
 
 li:hover {
-  /*border-color: #ddd;*/
   box-shadow: 0 2px 4px #666;
 }
 

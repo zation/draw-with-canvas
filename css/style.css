@@ -1,19 +1,24 @@
+html {
+  height: 100%;
+}
+
 body {
   background-image: url("../img/background.png");
   margin: 0;
+  height: 100%;
 }
 
 .images-gallery {
-  width: 20em;
+  display: inline-block;
+  width: 15em;
   background-color: white;
-  position: fixed;
   top: 0;
   bottom: 0;
   overflow-y: auto;
-  overflow-x: hidden;
   border-right: 1px solid #BBB;
   box-shadow: 0 0 20px #ccc;
   text-align: center;
+  height: 100%;
 }
 
 ul {
@@ -27,6 +32,7 @@ li {
   margin: .8em;
   padding: .2em;
   background-color: white;
+  width: 13em;
 }
 
 li:hover {
@@ -38,7 +44,13 @@ li:hover {
 }
 
 .content {
-  margin-left: 20em;
+  display: inline-block;
+  vertical-align: top;
+}
+
+.dragged {
+  position: absolute;
+  z-index: 100;
 }
 
 #canvas {

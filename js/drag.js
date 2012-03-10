@@ -6,13 +6,6 @@ function initialize_dragging() {
   var gallery_left = gallery.offset().left;
   var place_holder = $('<li id="place_holder"><img></li>');
 
-  gallery.on('mousedown', 'li', function (event) {
-    current_dragged_item = $(this);
-    offset_x = event.offsetX;
-    offset_y = event.offsetY;
-    event.preventDefault();
-  });
-
   function get_place_holder_index() {
     var place_holder_index = 0;
     var all_gallery_image = gallery.find('li');
@@ -29,10 +22,37 @@ function initialize_dragging() {
     return -1;
   }
 
-  $(document).on('mousemove', function (event) {
+  function get_current_x(event) {
+    var originalEvent = event.originalEvent;
+    return originalEvent.targetTouches == undefined ? event.offsetX : originalEvent.targetTouches[0].clientX - current_dragged_item.offset().left;
+  }
+
+  function get_current_y(event) {
+    var originalEvent = event.originalEvent;
+    return originalEvent.targetTouches == undefined ? event.offsetY : originalEvent.targetTouches[0].clientY - current_dragged_item.offset().top;
+  }
+
+  function get_current_top(event) {
+    var originalEvent = event.originalEvent;
+    return originalEvent.targetTouches == undefined ? event.clientY : originalEvent.targetTouches[0].clientY;
+  }
+
+  function get_current_left(event) {
+    var originalEvent = event.originalEvent;
+    return originalEvent.targetTouches == undefined ? event.clientX : originalEvent.targetTouches[0].clientX;
+  }
+
+  function start_dragging(event) {
+    current_dragged_item = $(this);
+    offset_x = get_current_x(event);
+    offset_y = get_current_y(event);
+    event.preventDefault();
+  }
+
+  function process_dragging(event) {
     if (current_dragged_item) {
-      var top = event.clientY - offset_y;
-      var left = event.clientX - offset_x;
+      var top = get_current_top(event) - offset_y;
+      var left = get_current_left(event) - offset_x;
       var right = left - current_dragged_item.outerWidth();
       current_dragged_item[0].className = 'dragging';
       current_dragged_item.css({
@@ -69,9 +89,9 @@ function initialize_dragging() {
 
       right < gallery_left ? show_place_holder() : place_holder.remove();
     }
-  });
+  }
 
-  $(document).on('mouseup', function () {
+  function end_dragging() {
     if (current_dragged_item) {
       if (get_place_holder_index() != -1) {
         current_dragged_item.remove();
@@ -81,5 +101,20 @@ function initialize_dragging() {
       }
       current_dragged_item = undefined;
     }
-  });
+  }
+
+  gallery.on('mousedown', 'li', start_dragging);
+  gallery.on('touchstart', 'li', start_dragging);
+//  document.getElementsByTagName('li')[0].addEventListener('touchstart', function(event) {
+//    console.log(event.targetTouches)
+//  });
+//  gallery.on('touchstart', 'li', function(event) {
+//    console.log(event.targetTouches)
+//  });
+
+  $(document).on('mousemove', process_dragging);
+  $(document).on('touchmove', process_dragging);
+
+  $(document).on('mouseup', end_dragging);
+  $(document).on('touchend', end_dragging);
 }

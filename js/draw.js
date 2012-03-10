@@ -5,11 +5,11 @@ function initialize_drawing() {
   var is_in_canvas = true;
 
   function get_current_x(event) {
-    return event.offsetX === undefined ? event.targetTouches[0].clientX - canvas.offsetLeft : event.offsetX;
+    return event.targetTouches == undefined ? event.offsetX : event.targetTouches[0].clientX - canvas.offsetLeft;
   }
 
   function get_current_y(event) {
-    return event.offsetY === undefined ? event.targetTouches[0].clientY - canvas.offsetTop : event.offsetY;
+    return event.targetTouches == undefined ? event.offsetY : event.targetTouches[0].clientY - canvas.offsetTop;
   }
 
   function start_drawing() {

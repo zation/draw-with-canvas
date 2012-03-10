@@ -42,8 +42,14 @@ function initialize_dragging() {
     return originalEvent.targetTouches == undefined ? event.clientX : originalEvent.targetTouches[0].clientX;
   }
 
+  function check_dragging(event) {
+    if (event.originalEvent.targetTouches.length < 2 && !current_dragged_item) {
+      start_dragging(event);
+    }
+  }
+
   function start_dragging(event) {
-    current_dragged_item = $(this);
+    current_dragged_item = $(event.currentTarget);
     offset_x = get_current_x(event);
     offset_y = get_current_y(event);
     event.preventDefault();
@@ -77,7 +83,10 @@ function initialize_dragging() {
         var gallery_images = $('.gallery-image');
         var insert_index = get_insert_index(gallery_images);
 
-        if (get_place_holder_index() != insert_index + 1) {
+        if (gallery_images.length == 0) {
+          gallery.append(place_holder);
+        }
+        else if (get_place_holder_index() != insert_index + 1) {
           insert_index == -1 ? gallery_images.eq(0).before(place_holder) : gallery_images.eq(insert_index).after(place_holder);
         }
       }
@@ -103,18 +112,14 @@ function initialize_dragging() {
     }
   }
 
+
+
   gallery.on('mousedown', 'li', start_dragging);
-  gallery.on('touchstart', 'li', start_dragging);
-//  document.getElementsByTagName('li')[0].addEventListener('touchstart', function(event) {
-//    console.log(event.targetTouches)
-//  });
-//  gallery.on('touchstart', 'li', function(event) {
-//    console.log(event.targetTouches)
-//  });
-
   $(document).on('mousemove', process_dragging);
-  $(document).on('touchmove', process_dragging);
-
   $(document).on('mouseup', end_dragging);
+
+  gallery.on('touchstart', 'li', check_dragging);
+  $(document).on('touchmove', process_dragging);
   $(document).on('touchend', end_dragging);
+
 }

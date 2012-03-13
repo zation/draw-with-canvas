@@ -5,6 +5,7 @@ function initialize_dragging() {
   var gallery = $('.gallery');
   var gallery_left = gallery.offset().left;
   var place_holder = $('<li id="place_holder"><img></li>');
+  var z_index = 0;
 
   function get_place_holder_index() {
     var place_holder_index = 0;
@@ -52,6 +53,7 @@ function initialize_dragging() {
     current_dragged_item = $(event.currentTarget);
     offset_x = get_current_x(event);
     offset_y = get_current_y(event);
+    z_index++;
     event.preventDefault();
   }
 
@@ -60,10 +62,12 @@ function initialize_dragging() {
       var top = get_current_top(event) - offset_y;
       var left = get_current_left(event) - offset_x;
       var right = left - current_dragged_item.outerWidth();
-      current_dragged_item[0].className = 'dragging';
+      current_dragged_item.addClass('dragging');
+      current_dragged_item.removeClass('gallery-image');
       current_dragged_item.css({
         'top': top,
-        'left': left
+        'left': left,
+        'z-index': z_index
       });
 
       function get_insert_index(gallery_images) {
@@ -106,13 +110,13 @@ function initialize_dragging() {
         current_dragged_item.remove();
         place_holder.after(current_dragged_item);
         place_holder.remove();
-        current_dragged_item[0].className = 'gallery-image';
+        current_dragged_item.removeClass('dragging');
+        current_dragged_item.addClass('gallery-image');
+        current_dragged_item.removeAttr('style');
       }
       current_dragged_item = undefined;
     }
   }
-
-
 
   gallery.on('mousedown', 'li', start_dragging);
   $(document).on('mousemove', process_dragging);
